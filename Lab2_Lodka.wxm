@@ -181,7 +181,7 @@ Możemy wykreślić tor łódki y(x):
 
 
 /* [wxMaxima: input   start ] */
-wxplot2d(y, [x,0,22]);
+wxplot2d(y, [x,0,100], same_xy);
 /* [wxMaxima: input   end   ] */
 
 
@@ -241,7 +241,7 @@ romberg(funkcja_podcalkowa, x, 0.02, dryf-0.02);
 
 
 /* [wxMaxima: comment start ]
-Widać, że wynik nie jest poprawny (sama szerokość rzeki wynosi 100). Długość toru można oszacować jako przeciwprostokątna trójkąta o bokach L i dryf. Tor jest krzywą, więc powinien być nieco większy od tej wartości:
+Widać, że ograniczenie przedziałów daje niepoprawny wynik (sama szerokość rzeki wynosi 100). Długość toru można oszacować jako przeciwprostokątna trójkąta o bokach L i dryf. Tor jest krzywą, więc powinien być nieco większy od tej wartości:
    [wxMaxima: comment end   ] */
 
 
@@ -251,7 +251,7 @@ sqrt(100^2+dryf^2),numer;
 
 
 /* [wxMaxima: comment start ]
-I rzeczywiście, jeśli policzyć długość krzywej z definicji drogi jako całkę z prędkości v(t) po czasie, otrzymujemy wynik bliższy prawdy:
+I rzeczywiście, jeśli policzyć długość krzywej z definicji drogi jako całkę z prędkości v(t) po czasie, otrzymujemy właściwy wynik:
    [wxMaxima: comment end   ] */
 
 

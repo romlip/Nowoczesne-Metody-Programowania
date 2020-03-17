@@ -205,13 +205,58 @@ d) długość drogi
    [wxMaxima: title   end   ] */
 
 
+/* [wxMaxima: comment start ]
+y(x):
+   [wxMaxima: comment end   ] */
+
+
 /* [wxMaxima: input   start ] */
-funkcja_podcalkowa: diff(y,x);
+y;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+funkcja podcałkowa do twierdzenia o długości łuku krzywej:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+funkcja_podcalkowa: sqrt(1+diff(y,x)^2);
 /* [wxMaxima: input   end   ] */
 
 
 /* [wxMaxima: input   start ] */
-romberg(funkcja_podcalkowa, x, 0, dryf);
+wxplot2d(funkcja_podcalkowa, [x, 0, dryf]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Funkcja podcałkowa na granicach przedziału całkowania dąży do nieskończoności i romberg nie chce "zbiegać". Dlatego ograniczyłem przedział o 0.02 z obu stron, aby mógł w ogóle coś policzyć:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(funkcja_podcalkowa, x, 0.02, dryf-0.02);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Widać, że wynik nie jest poprawny (sama szerokość rzeki wynosi 100). Długość toru można oszacować jako przeciwprostokątna trójkąta o bokach L i dryf. Tor jest krzywą, więc powinien być nieco większy od tej wartości:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sqrt(100^2+dryf^2),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+I rzeczywiście, jeśli policzyć długość krzywej z definicji drogi jako całkę z prędkości v(t) po czasie, otrzymujemy wynik bliższy prawdy:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+droga: romberg(v, t, 0, tk);
 /* [wxMaxima: input   end   ] */
 
 

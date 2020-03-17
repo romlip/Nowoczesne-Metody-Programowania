@@ -1,0 +1,139 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: title   start ]
+Maxima: Zadanie (basen)
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obliczyć rozmiary najtańszego prostopadłościennego basenu przeciwpożarowego.
+Używane zmienne:
+d = długość, s = szerokość, g = głębokość, V = objętość,
+Pd = powierzchnia dna, Pb = powierzchnia ścian bocznych,
+Vz = zadana objętość basenu (1000 m^3),
+cd = cena dna (30 zł za m^2), cb = cena ścian bocznych (20 zł za m^2), cV = cena wykopu (10 zł za m^3).
+
+Dodatkowe założenie:
+Basen ma ustaloną głębokość (g = 2 m).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: [cd = 30, cb = 20, cV = 10, g = 2, Vz = 1000];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Pd: d*s;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Pb: 2*d*g+2*s*g;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+V: s*d*g;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wzór ogólny na cenę:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cena: cd*Pd + cb*Pb + V* cV;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Podstawiamy zadane parametry do ceny:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cena: subst(parametry, cena);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Cena jest funkcją dwóch zmiennych: s i d, wyznaczmy np. s ze wzoru na V:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+s: subst(parametry, solve(V = Vz, s));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Podstawiamy s do ceny i otrzymujemy cenę jako funkcję jednej zmiennej d:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cena: subst(s[1], cena);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Aby obliczyć minimum, liczymy pochodną ceny po zmiennej d i przyrównujemy do zera, otrzymujemy wartość:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+d: solve(diff(cena, d) = 0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Otrzymaną wartość d podstawiamy do ceny i otrzymujemy cenę minimalną:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+cena_min: ev(cena, d[2]),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Uzyskaną wartość d podstawiamy do wcześniejszego wzoru na s i otrzymujemy pozostałe rozmiary:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozmiary: [d[2], subst(d[2], s[1]),parametry[4]];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Widzimy, że długość d i szerokość s są równe, czego należało oczekiwać, gdyż cena powierzchniowa wszystkich ścian bocznych jest
+taka sama; żaden z tych wymiarów nie jest wyróżniony
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Sprawdzamy czy otrzymane rozmiary dają zadaną objętość Vz:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sprawdzenie_obj: ev(V,rozmiary[1],rozmiary[2],rozmiary[3]) - rhs(parametry[5]) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dają :)
+   [wxMaxima: comment end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

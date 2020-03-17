@@ -1,0 +1,220 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: title   start ]
+Maxima. Zadanie z łódką.
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Treść zadania:
+
+Po rzece płynie łódka ze stałą względem wody prędkością v1, prostopadłą
+do kierunku prądu. Woda w rzece płynie z prędkością v2, wszędzie równoległą do brzegów,
+ale wartość tej prędkości zależy od odległości od brzegów i dana jest wzorem:
+v2(y) = v0 * sin(π * y/ L)
+gdzie L jest szerokością rzeki, a v0 prędkością maksymalną (w środku nurtu).
+Należy wyznaczyć:
+a) całkowitą prędkość łódki v(t) względem nieruchomych brzegów,
+b) kształt toru łódki,
+c) odległość (wzdłuż brzegu) na jaką 'zdryfowała' łódka,
+d) łączną długość drogi jaką przebyła łódka.
+
+    Wykorzystać twierdzenie (o długości łuku krzywej):
+
+    Jeżeli funkcja f ma ciągłą pochodną na przedziale [a, b], 
+    to długość łuku krzywej L o równaniu y = f(x), 
+    gdzie x należy do przedziału [a, b], wynosi:
+    'integrate(sqrt(1+'diff(y,x)^2),x,a,b)
+
+    oraz całkowanie numeryczne metodą Romberga:
+    romberg(wyrazenie, zmienna y, dolna granica, górna granica);
+    np: romberg(3*x^2, x, 0, 1);
+    
+    dla L=100 m, v0=10 m/s, v1=30 m/s.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+y  ^
+    |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |    --->                                      
+    |    ----------->                               /\     ^
+    |    ----------------> v2(y)               |  |     |  v1
+    |    ----------->                               _
+    |    --->|
+    |    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     --------------------------------------------------------------> x
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v2: v0*sin(%pi*y/L);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: [v0 = 10, v1 = 30, L = 100];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v2: subst(parametry, v2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: title   start ]
+a) v(t)
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Potrzebujemy określić prędkość v2 w funkcji czasu t. Współrzędna y łódki zależy od jej prędkości v1:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y: integrate(v1, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v2: subst(parametry, v0*sin(%pi*y/L));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Szybkość v(t) jest długością wektora wypadkowego, na który składają się wektory: vx = v2 oraz vy = v1:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+vx: v2;
+vy: v1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+v: subst(parametry, sqrt(vx^2 + vy^2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obliczmy też czas końcowy tk = L/v1, w którym łódka dopłynie do brzegu
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tk: ev(L/v1, parametry);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+i wykreślmy wykres szybkości v(t):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d(v, [t, 0, tk]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: hide output   ] */
+/* [wxMaxima: comment start ]
+Z wykresu widać, że główny wkład do prędkości wypadkowej ma prędkość łódki v1. Nurt rzeki jest względnie słaby.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: title   start ]
+b) tor ruchu
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Szukamy zależności y(x). 
+Najpierw wyznaczmy położenie łódki x(t) jako całkę ze składowej prędkości vx = v2 po czasie t z warunkiem początkowym x(0) = 0:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+x0: 0$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xt: integrate(v2, t) + C;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+C: solve(ev(xt, t = 0) = 0, C);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+xt: subst(C, xt);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+i wyznaczmy z tego równania czas t(x):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+tx: solve(xt = x, t)[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+I podstawiamy do wcześniej otrzymanego równania na y(t), otrzymując funkcję y(x):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+y: subst(parametry,subst(tx, y));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Możemy wykreślić tor łódki y(x):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d(y, [x,0,22]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: title   start ]
+c) dryf
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dryfem jest droga składowej vx prędkości, czyli jest to całka oznaczona z nurtu rzeki v2 po czasie od t=0 do t=tk:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dryf: integrate(v2, t, 0, tk);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: title   start ]
+d) długość drogi
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+funkcja_podcalkowa: diff(y,x);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+romberg(funkcja_podcalkowa, x, 0, dryf);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

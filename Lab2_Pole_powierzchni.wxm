@@ -1,0 +1,116 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: input   start ] */
+killa(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: title   start ]
+Zadanie: Pole powierzchni
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obliczyć pole powierzchni ograniczonej wykresami trzech funkcji (f1, f2 i f3)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f1 : a1*x^2+b1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f2 : a2*sqrt(x)+b2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f3 : a3*x;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+To czy podane krzywe w ogóle będą się przecinać zależy od konkretnych
+wartości współczynników --- nie istnieje więc jakieś rozwiązanie 'ogólne'.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Założenie: a1 = 1, b1 = 1, a2 = 2, b2 = 3, a3 = 3.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+---------------------------------------------------------------------------------------------------------------
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: [a1 = 1, b1 = 1, a2 = 2, b2 = 3, a3 = 3];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+f1:subst(parametry, f1);
+f2:subst(parametry, f2);
+f3:subst(parametry, f3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f1,f2,f3],[x,0,3])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wyznaczamy punkty przecięcia się funkcji:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+x13: solve(f1=f3),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+x12: solve(solve(f1=f2,sqrt(x))^2,x),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+x23: solve(solve(f2=f3,sqrt(x))^2),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Punkty zespolone odrzucamy. Obliczamy duże pole wybierając odpowiednie punkty z pozostałych na podstawie wykresu:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+duze_pole: integrate(f3-f1,x,rhs(x13[1]), rhs(x23[2])) + integrate(f2-f1,x,rhs(x23[2]), rhs(x12[4])), numer;
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: answer  start ] */
+pos;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: comment start ]
+Obliczamy małe pole:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+male_pole: integrate(f3-f2,x,rhs(x23[2]),rhs(x12[4])) + integrate(f3-f1,x,rhs(x12[4]),rhs(x13[2])), numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+odpowiedz: [male_pole, duze_pole];
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

@@ -1,0 +1,300 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: title   start ]
+Maxima: równanie nieliniowe
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Rozwiązywanie równania nieliniowego
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+Zadanie: Pływak
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Dana jest kula o promieniu "R" wykonana z materiału o gęstości "ρ_k", 
+która pływa w cieczy o gęstości "ρ_c".
+Należy znaleźć głębokość "h" na jaką kula się zanurzy.
+
+
+Następnie, wykonać obliczenia dla:
+ρ_c = ρ_w = 1
+ρ_k = 0.6
+R = 5.5
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+load(draw);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Tworzymy listę podstawień.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+pod : [%rho[w]=1, %rho[k]=0.6, R=5.5, g = 9.81];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+To posłuży do utworzenia rysunku.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(
+    user_preamble = "set size ratio 1",
+    color = red,
+    implicit(subst(pod,x^2+(y-R)^2=R^2), x, subst(pod,-2*R), subst(pod,2*R), y, subst(pod,-2*R), subst(pod,2*R)),
+    color = blue,
+    explicit(6.238, x, subst(pod,-1.5*R), subst(pod,1.5*R)),
+    color = green,
+    head_angle = 15,
+    head_length = 1,
+    vector(subst(pod,[0,R]), subst(pod,[sin(%pi/4)*R, sin(%pi/4)*R])),
+    vector([0,0], [0,6.238]),
+    color = black,
+    label(["R", subst(pod,R/2), subst(pod,R+1)]),
+    label(["woda", subst(pod,-R-1), subst(pod,-1)]),
+    label(["powietrze", subst(pod,-R), subst(pod,5*R/2)]),
+    label(["h", subst(pod,R/4-0.3),subst(pod,R/3)]),
+    yrange = [subst(pod,-0.8*R), subst(pod,3.2*R)]
+);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+6.238 --- to jest rozwiązanie, które należy otrzymać
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: section start ]
+---------------------------------------------------------------------------------------------------------
+ROZWIĄZANIE
+---------------------------------------------------------------------------------------------------------
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Kula będzie w równowadze, gdy siła wyporu Fw będzie równa ciężarowi kuli Fc.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Fw: %rho[w]*g*V[h];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Fc: m[k]*g;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+m[k]: V[k]*%rho[k];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Fc: m[k]*g;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown: Fw = Fc;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Gdzie Vh jest objętościa zanurzonej części kuli, a Vk objętością całej kuli
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wyznaczmy Vh. Będziemy całkować dyski o powierzchni pi*r^2 i grubości dh
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rownV: del(V[h]) = %pi*r^2*del(h);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+r jest funkcją h. Żeby znależć tę zależność, korzystamy z tw. Pitagorasa:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown1: (R - h)^2 + r^2 = R^2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(rown1, r^2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Podstawiamy r^2(h) do różniczki dVh
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rownV: subst(solve(rown1, r^2), rownV);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Nie wiem jak zgrabnie scałkować powyższą różniczkę. Robię to dość łopatologicznie (i chyba źle z formalnego punktu widzenia, ale całka jest poprawna)
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rownV: rownV/del(h);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Otrzymujemy wzór na objętość zanurzonej części kuli Vh(h):
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+V[h]: integrate(rhs(rownV), h, 0, h);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Objętość całej kuli Vk wynosi
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+V[k]: 4/3*%pi*R^3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Podstawiamy wyznaczone objętości Vh i Vk do naszego równania Fc = Fw
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+Fw: %rho[w]*g*V[h];
+Fc: V[k]*g*%rho[k];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown: ( Fw = Fc);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+expand(rown);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Otrzymaliśmy równanie sześcienne ze względu na h. Rozwiązujemy je.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw: solve(rown, h);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Tylko jedno rozwiązanie (3) jest rzeczywiste:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw: rhs(rozw[3]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Podstawiamy parametry i obliczamy głębokość h:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev(rozw, pod);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+ev(rozw, pod),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+NIE DZIAŁAAA!!!!! Dostaliśmy coś pozornie(?) zespolonego... Nie wiem...
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+Zastosujemy inne podejście. Zamiast użyć solve, użyjemy allroots. Zdefiniujmy nasz wielomian:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wielomian: lhs(expand(Fc - Fw = 0));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wielomian: subst(pod,wielomian),numer;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wyznaczmy pierwiastki:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+allroots(subst(pod,wielomian));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+DZIAŁA!!!!!
+Drugie i trzecie rozwiązanie odrzucamy, gdyż 0 < h < 2R = 11
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw: allroots(subst(pod,wielomian))[1];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wykres naszego wielomianu:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d(subst(pod, wielomian), [h, -6,16]);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

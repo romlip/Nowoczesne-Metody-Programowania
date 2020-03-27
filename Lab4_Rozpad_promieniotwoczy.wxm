@@ -1,0 +1,377 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: comment start ]
+Zadanie o rodzinie promieniotwórczej:
+Dany jest nuklid promieniotwórczy N_1, którego w chwili początkowej (t_0 = 0) mamy N_10, 
+rozpada się on (ze stałą rozpadu lambda_1) tworząc nuklid N_2 (dla t_0 = 0 było go N_20).
+Ten z kolei rozpada się ze stałą rozpadu lambda_2, 
+tworząc nuklid N_3 (dla t_0 = 0 było go N_30), 
+który ze stałą lambda_3 daje N_4 (dla t_0 = 0 było go N_40). Czwarty nuklid jest stabilny.
+
+a) Wyznaczyć zależności od czasu dla N_1, N_2, N_3, N_4.
+
+b) Podobnie jak w a), ale przyjąć, że dla t=0 mamy tylko nuklid promieniotwórczy N_1.
+    (N_10 = 1000, N_20 = 0, N_30 = 0, N_40 = 0)
+
+c) Zależności otrzymane w b) pokazać na wspólnym wykresie.
+    Przyjmijmy tu, że:
+    λ_1 = 100, λ_2 = 5, λ_3 = 150;
+
+Dla chętnych: Czwarty nuklid rozpada się ze stałą rozpadu lambda_4, 
+tworząc nuklid N_5 (dla t_0 = 0 było go N_50). Piąty nuklid jest stabilny.
+Dalej analogicznie jak w a) b) c) (załóżmy, że λ_4 = 10)
+Uwaga: Maxima może zadawać pytania o znaki kilku wyrażeń.
+I pytania te mogą się, niestety, powtarzać...
+Uwaga: Program powinien działać poprawnie dla innych wartości stałych rozpadu.
+Ich wartości, podobnie jak N_...0 dla t=0, mają być określane tylko w jednym miejscu programu.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+------------------------------------------------------------------------------------------------------------------------------
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+assume(%lambda_1>0, %lambda_2>0,%lambda_3>0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+a)
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: hide output   ] */
+/* [wxMaxima: comment start ]
+====== N1
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_1: 'diff(N_1, t) = -%lambda_1*N_1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_1: ode2(rown_N_1, N_1, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_1: ic1(rozw_ogol_N_1, t = 0, N_1=N_10);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_1:rhs(rozw_N_1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+====== N2:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_2: 'diff(N_2, t)  =-%lambda_2*N_2 +%lambda_1*N_1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_2: ode2(rown_N_2, N_2, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_2: ic1(rozw_ogol_N_2, t =0, N_2 = N_20);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_2: expand(rhs(rozw_N_2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+====== N3:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_3: 'diff(N_3, t)  =-%lambda_3*N_3+%lambda_2* N_2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_3: ode2(rown_N_3, N_3, t);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_3: ic1(rozw_ogol_N_3, t =0, N_3 = N_30);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_3: rhs(rozw_N_3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+====== N4:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_4:'diff(N_4, t) = %lambda_3*N_3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_4: ode2(rown_N_4, N_4, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_4: ic1(rozw_ogol_N_4, t = 0, N_4 = N_40);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_4: rhs(rozw_N_4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_1;
+N_2;
+N_3;
+N_4;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+b)
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: subsubsect start ]
+
+   [wxMaxima: subsubsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: [N_10 = 1000, N_20 = 0, N_30 = 0, N_40 = 0];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_1: subst(parametry, N_1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_2: subst(parametry, N_2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_3: subst(parametry, N_3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_4: subst(parametry, N_4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+lub można podstawiać na etapie rozwiązań:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: subsubsect start ]
+
+   [wxMaxima: subsubsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+assume(%lambda_1>0, %lambda_2>0,%lambda_3>0);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: [N_10 = 1000, N_20 = 0, N_30 = 0, N_40 = 0];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+================= N1:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_1: 'diff(N_1, t) = -%lambda_1*N_1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_1: ode2(rown_N_1, N_1, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_1: subst(parametry, ic1(rozw_ogol_N_1, t = 0, N_1 = N_10));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_1:rhs(rozw_N_1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+================== N2:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_2: 'diff(N_2, t)  =-%lambda_2*N_2 +%lambda_1*N_1;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_2: ode2(rown_N_2, N_2, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_2: subst(parametry, ic1(rozw_ogol_N_2, t =0, N_2 = N_20));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_2: (rhs(rozw_N_2));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+==================== N3:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_3: 'diff(N_3, t)  =-%lambda_3*N_3+%lambda_2* N_2;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_3: ode2(rown_N_3, N_3, t);
+/* [wxMaxima: input   end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+/* [wxMaxima: answer  start ] */
+no;
+/* [wxMaxima: answer  end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_3: subst(parametry,ic1(rozw_ogol_N_3, t =0, N_3 = N_30));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_3: rhs(rozw_N_3);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+=================== N4:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rown_N_4: 'diff(N_4, t) = %lambda_3*N_3;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_ogol_N_4: ode2(rown_N_4, N_4, t);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozw_N_4: subst(parametry, ic1(rozw_ogol_N_4, t = 0, N_4 = N_40));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_4: rhs(rozw_N_4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N_1;
+N_2;
+N_3;
+N_4;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: subsect start ]
+c)
+   [wxMaxima: subsect end   ] */
+
+
+/* [wxMaxima: input   start ] */
+parametry: append(parametry, [%lambda_1 =100, %lambda_2 = 5, %lambda_3 = 150]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([subst( parametry, N_1), subst( parametry, N_2),subst( parametry, N_3), subst( parametry, N_4)],[t, 0, 1]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+sprawdzenie: suma wszystkich nuklidów powinna być stała:
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sumaN: subst( parametry, N_1)+subst( parametry, N_2)+subst( parametry, N_3)+subst( parametry, N_4);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+wxplot2d([subst( parametry, N_1), subst( parametry, N_2),subst( parametry, N_3), subst( parametry, N_4), sumaN],[t, 0, 1]);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

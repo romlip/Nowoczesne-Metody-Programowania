@@ -22,6 +22,11 @@ r[2], r[3], r[4] - analogicznie
 
 
 /* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
 r[1] : u[-1] = u[0] - 'diff(u,x,1)/1! * h + 'diff(u,x,2)/2! * h^2 - 'diff(u,x,3)/3! * h^3 + 'diff(u,x,4)/4! * h^4 - 'diff(u,x,5)/5! * h^5 + O[h6];
 /* [wxMaxima: input   end   ] */
 
@@ -67,19 +72,8 @@ w: ratsimp(sumaR);
 
 
 /* [wxMaxima: input   start ] */
-dpart(w,1,5,1);
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
 rn[1] : part(w, 1,5,1) = 0;
 /* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: hide output   ] */
-/* [wxMaxima: comment start ]
-Podobnie dla innych pochodnych (z wyjątkiem drugiej, co wynika z treści zadania).
-   [wxMaxima: comment end   ] */
 
 
 /* [wxMaxima: input   start ] */

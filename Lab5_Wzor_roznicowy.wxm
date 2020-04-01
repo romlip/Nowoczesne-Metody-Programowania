@@ -1,0 +1,132 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 19.05.7 ] */
+/* [wxMaxima: title   start ]
+Wzór różnicowy
+   [wxMaxima: title   end   ] */
+
+
+/* [wxMaxima: section start ]
+Praca domowa.
+   [wxMaxima: section end   ] */
+
+
+/* [wxMaxima: comment start ]
+Wyprowadzić asymetryczny wzór różnicowy (o dokładności h^4) na drugą pochodną.
+Warunek : 'Oprzeć' go na punktach: -1, 0, +1, +2, +3, +4).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: comment start ]
+r[2], r[3], r[4] - analogicznie
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r[1] : u[-1] = u[0] - 'diff(u,x,1)/1! * h + 'diff(u,x,2)/2! * h^2 - 'diff(u,x,3)/3! * h^3 + 'diff(u,x,4)/4! * h^4 - 'diff(u,x,5)/5! * h^5 + O[h6];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r[2] : u[+1] = u[0] + 'diff(u,x,1)/1! * h + 'diff(u,x,2)/2! * h^2 + 'diff(u,x,3)/3! * h^3 + 'diff(u,x,4)/4! * h^4 + 'diff(u,x,5)/5! * h^5 + O[h6];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r[3] : u[+2] = u[0] + 'diff(u,x,1)/1! * (2*h) + 'diff(u,x,2)/2! * (2*h)^2 + 'diff(u,x,3)/3! * (2*h)^3 + 'diff(u,x,4)/4! * (2*h)^4 + 'diff(u,x,5)/5! * (2*h)^5 + O[h6];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r[4] : u[+3] = u[0] + 'diff(u,x,1)/1! * (3*h) + 'diff(u,x,2)/2! * (3*h)^2 + 'diff(u,x,3)/3! * (3*h)^3 + 'diff(u,x,4)/4! * (3*h)^4 + 'diff(u,x,5)/5! * (3*h)^5 + O[h6];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+r[5] : u[+4] = u[0] + 'diff(u,x,1)/1! * (4*h) + 'diff(u,x,2)/2! * (4*h)^2 + 'diff(u,x,3)/3! * (4*h)^3 + 'diff(u,x,4)/4! * (4*h)^4 + 'diff(u,x,5)/5! * (4*h)^5 + O[h6];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+suma : r[1] + n[2]*r[2] + n[3]*r[3] + n[4]*r[4] + n[5]*r[5];
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sumaL : lhs(suma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+sumaR : rhs(suma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+w: ratsimp(sumaR);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+dpart(w,1,5,1);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rn[1] : part(w, 1,5,1) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: hide output   ] */
+/* [wxMaxima: comment start ]
+Podobnie dla innych pochodnych (z wyjątkiem drugiej, co wynika z treści zadania).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rn[3] : part(w, 1, 3,1) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rn[4] : part(w, 1, 2, 1) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rn[5] : part(w, 1,  1, 1) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+rozwn : solve([rn[1], rn[3], rn[4], rn[5]], [n[2], n[3], n[4],n[5]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+n[2] : part(rozwn, 1, 1, 2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+n[3] : part(rozwn, 1, 2, 2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+n[4] : part(rozwn, 1, 3, 2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+n[5]: part(rozwn, 1, 4, 2);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(''sumaL = ''sumaR, 'diff(u, x, 2));
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 19.05.7"$

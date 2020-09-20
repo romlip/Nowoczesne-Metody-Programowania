@@ -1,0 +1,34 @@
+type			name				radius			semi_major_axis		visual_albedo	inclination
+
+  Galilean		Io(JI) 	 			1821.5 			421.8			0.62		0.04
+  Galilean		Europa(JII) 	 		1560.8 			671.1			0.68		0.47
+  Galilean		Ganymede(JIII) 			2631.2 			1070.4			0.44		0.18
+  Galilean		Callisto(JIV) 			2410.3			1882.7			0.19		0.19
+
+  Lesser		Metis(JXVI,S/1979_J3) 	 	20 	 128.0 			0.06		0.06
+  Lesser		Adrastea(JXV,S/1979_J1) 	 	8 	 129.0			0.10		0.03
+  Lesser		Amalthea(JV) 				73 	 181.4			0.09		0.4
+  Lesser		Thebe(JXIV,S/1979_J2) 	 	49 	 221.9			0.05		0.8
+
+  Lesser		Themisto(JXVIII,S/1975_J1) 	  	4 	 7507			0.04		45.67
+ 
+  Lesser		Leda(JXIII) 	 	5 	  		11170			0.07		27.47
+  Lesser		Himalia(JVI) 		85 	  		11460			0.03		27.63
+  Lesser		Lysithea(JX)  	12			11720			0.06		27.35
+  Lesser		Elara(JVII)		40			11740			0.03		24.77
+ 
+  Lesser		S/2000_J11 	  	2.0 	  		12560			0.04		28.2
+ 
+  Lesser		Carpo(XLVI,S/2003_J20) 	  	3.0 	 16990			NA		51.4
+  Lesser		Euporie(JXXXIV,S/2001_J10) 	  	1.0 	 19390			NA		147.0
+  Lesser		Orthosie(JXXXV,S/2001_J9) 	  	1.0 	 20720			NA		145.9
+  Lesser		Euanthe(JXXXIII,S/2001_J7) 	  	1.5 	 20800			NA		148.9
+  Lesser		Thyone(JXXIX,S/2001_J2) 	  	2.0 	 20940			NA		148.5
+  Lesser		Mneme(JXL,S/2003_J21) 	  	2.0 	 21070			NA		148.6
+  Lesser		Harpalyke(JXXII,S/2000_J5) 	  	2.2 	 21110			0.04		148.7
+  Lesser		Hermippe(JXXX,S/2001_J3) 	  	2.0 	 21130			NA		150.7
+  Lesser		Praxidike(JXXVII,S/2000_J7) 		3.4 	 21150			0.04 		148.7
+  Lesser		Thelxinoe(XLII,S/2003_J22) 	  	2.0 	 21160			NA		151.4
+  Lesser		Helike(XLV,S/2003_J6) 	  	4.0 	 21260			NA		154.8
+  Lesser		Iocaste(JXXIV,S/2000_J3) 	  	2.6 	 21720			0.04		159.7
+  Lesser		Ananke(JXII) 	 			10 	 21280			0.06		148.9

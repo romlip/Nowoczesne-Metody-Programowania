@@ -1,0 +1,4 @@
+warstwa material opis x grubosc_w_nm
+1 AlGaAs bariera1 0.30 12.
+2 AlGaAs studnia 0. 6.
+3 AlGaAs bariera2 0.30 12.
